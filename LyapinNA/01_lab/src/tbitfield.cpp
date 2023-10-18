@@ -9,11 +9,20 @@
 
 TBitField::TBitField(int len)
 {
-    if (len < BitLen) throw "the len of massive couldn't be less then 0";
-    BitLen = len;
-    MemLen = (BitLen - 1) / (sizeof(TELEM) * 8) + 1;
-    pMem = new TELEM[MemLen];
-    for (int i = 0; i < MemLen; ++i) pMem[i]=0;
+    if (len < 0) throw "the len of massive couldn't be less then 0";
+    else if (len == 0)
+    {
+        BitLen = 0;
+        MemLen = 0;
+        pMem = nullptr;
+    }
+    else
+    {
+        BitLen = len;
+        MemLen = ((BitLen - 1) / (sizeof(TELEM) * 8)) + 1;
+        pMem = new TELEM[MemLen];
+        for (int i = 0; i < MemLen; ++i) pMem[i] = 0;
+    }
 }
 
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
@@ -29,14 +38,13 @@ TBitField::~TBitField() { delete[] this->pMem; }
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
     if(n<0 || n>BitLen-1) throw "Method is not implemented";
-    return n/sizeof(TELEM)*8;
+    return n/(sizeof(TELEM)*8);
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
-    if (n<0 || n>BitLen - 1) throw "Method is not implemented";
-    size_t justnumforfirstlab = 1;
-    return justnumforfirstlab << sizeof(TELEM) * 8 - n% (sizeof(TELEM) * 8);
+    if ((n < 0) || (n > BitLen - 1)) throw "Method is not implemented";
+    return 1u << (sizeof(TELEM) * 8) - (n % (sizeof(TELEM) * 8));
 }
 
 // доступ к битам битового поля
@@ -62,7 +70,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 {
     if (n < 0 || n > BitLen - 1) throw "Method is not implemented";
 
-    if ((pMem[GetMemIndex(n)] & GetMemMask(n)) == GetMemMask(n)) return 1;
+    if ((pMem[GetMemIndex(n)] | GetMemMask(n)) == pMem[GetMemIndex(n)]) return 1;
     else return 0;
 }
 
