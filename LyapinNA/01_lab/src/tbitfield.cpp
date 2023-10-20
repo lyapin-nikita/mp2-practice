@@ -99,12 +99,24 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-    const int newBitLen = min(BitLen, bf.BitLen);
+    const int newBitLen = max(BitLen, bf.BitLen);
     TBitField result(newBitLen);
-    for (int i(0); i < newBitLen; ++i)
+    for (int i(0); i < newBitLen; i++)
     {
-        if (GetBit(i) == bf.GetBit(i) == 0) result.ClrBit(i);
-        else result.SetBit(i);
+        if (i >= BitLen)
+        {
+            //if (bf.GetBit(i) == 1) result.SetBit(i);
+            (bf.GetBit(i) == 1) ? (result.SetBit(i)) : false;
+        }
+        else if (i >= bf.BitLen)
+        {
+            (GetBit(i) == 1) ? (result.SetBit(i)) : false;
+        }
+        else 
+        {
+            if ((GetBit(i) == 0) && (bf.GetBit(i) == 0)) true;
+            else result.SetBit(i);
+        }
     }
     return result;
 }
@@ -112,12 +124,18 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
     //throw "Method is not implemented";
-    const int newBitLen = min(BitLen, bf.BitLen);
+    const int newBitLen = max(BitLen, bf.BitLen);
     TBitField result(newBitLen);
-    for (int i(0); i < newBitLen; ++i)
+    for (int i(0); i < newBitLen; i++)
     {
-        if (GetBit(i) == bf.GetBit(i) == 1) result.SetBit(i);
-        else result.ClrBit(i);
+        if ((i >= BitLen) || (i >= bf.BitLen))
+        {
+            false;
+        }
+        else
+        {
+            if ((GetBit(i) == 1) && (bf.GetBit(i) == 1)) result.SetBit(i);
+        }
     }
     return result;
 }

@@ -9,6 +9,7 @@
 
 TSet::TSet(int mp) : BitField(mp)
 {
+    //BitField = TBitField(mp);
     MaxPower = mp;
 }
 
@@ -35,13 +36,13 @@ int TSet::GetMaxPower(void) const // получить макс. к-во эл-т�
 
 int TSet::IsMember(const int Elem) const // элемент множества?
 {
-    if (Elem < MaxPower || Elem > MaxPower - 1) throw "Method is not implemented";
+    if ((Elem < MaxPower) || (Elem >= MaxPower)) throw "Method is not implemented";
     return BitField.GetBit(Elem);
 }
 
 void TSet::InsElem(const int Elem) // включение элемента множества
 {
-    if (Elem < MaxPower || Elem > MaxPower - 1) throw "Method is not implemented";
+    if ((Elem < MaxPower) || (Elem >= MaxPower)) throw "Method is not implemented";
     BitField.SetBit(Elem);
 }
 
