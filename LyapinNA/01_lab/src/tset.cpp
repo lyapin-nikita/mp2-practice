@@ -4,134 +4,187 @@
 //   Переработано для Microsoft Visual Studio 2008 Сысоевым А.В. (19.04.2015)
 //
 // Множество - реализация через битовые поля
+// Реализация оболочки TSet (множества) битового поля TBitField
 
 #include "tset.h"
 
-TSet::TSet(int mp) : BitField(mp)
+
+
+
+
+
+
+//METODS AND CONSTRUCTS
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//default
+TSet::TSet(int mp) : BitField(mp), MaxPower(mp)
 {
-    //BitField = TBitField(mp);
-    MaxPower = mp;
 }
 
-// конструктор копирования
-TSet::TSet(const TSet &s) : BitField(s.BitField)
+//copy
+TSet::TSet(const TSet& s) : BitField(s.BitField), MaxPower(s.MaxPower)
 {
-    MaxPower = s.MaxPower;
 }
 
-// конструктор преобразования типа
-TSet::TSet(const TBitField &bf) : BitField(bf), MaxPower(bf.GetLength())
+//converting
+TSet::TSet(const TBitField& bf) : BitField(bf), MaxPower(bf.GetLength())
 {
 }
+
+//return maxpower
+int TSet::GetMaxPower(void) const 
+{
+    return MaxPower;
+}
+
+//return bit
+int TSet::IsMember(const int Elem) const 
+{
+    if (Elem < 0 || Elem >= MaxPower)
+        throw "Method is not implemented";
+
+    return BitField.GetBit(Elem);
+}
+
+//set bit in bitfield
+void TSet::InsElem(const int Elem) // включение элемента множества
+{
+    if (Elem < 0 || Elem >= MaxPower)
+        throw "Method is not implemented";
+    BitField.SetBit(Elem);
+}
+
+//
+void TSet::DelElem(const int Elem) // исключение элемента множества
+{
+    if (Elem < 0 || Elem >= MaxPower)
+        throw "Method is not implemented";
+    BitField.ClrBit(Elem);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+//OPERATORS
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TSet::operator TBitField()
 {
     return BitField;
 }
 
-int TSet::GetMaxPower(void) const // получить макс. к-во эл-тов
+TSet& TSet::operator=(const TSet& s)
 {
-    return MaxPower;
-}
-
-int TSet::IsMember(const int Elem) const // элемент множества?
-{
-    if ((Elem < MaxPower) || (Elem >= MaxPower)) throw "Method is not implemented";
-    return BitField.GetBit(Elem);
-}
-
-void TSet::InsElem(const int Elem) // включение элемента множества
-{
-    if ((Elem < MaxPower) || (Elem >= MaxPower)) throw "Method is not implemented";
-    BitField.SetBit(Elem);
-}
-
-void TSet::DelElem(const int Elem) // исключение элемента множества
-{
-    if (Elem < MaxPower || Elem > MaxPower - 1) throw "Method is not implemented";
-    BitField.ClrBit(Elem);
-}
-
-// теоретико-множественные операции
-
-TSet& TSet::operator=(const TSet &s) // присваивание
-{
+    if (this == &s)
+        return *this;
     MaxPower = s.MaxPower;
     BitField = s.BitField;
     return *this;
 }
 
-int TSet::operator==(const TSet &s) const // сравнение
+int TSet::operator==(const TSet& s) const
 {
-    if (MaxPower != s.MaxPower) return false;
-    if (BitField != s.BitField) return false;
-    return true;
+    if (MaxPower != s.MaxPower)
+        return 0;
+    if (BitField != s.BitField)
+        return 0;
+    return 1;
 }
 
-int TSet::operator!=(const TSet &s) const // сравнение
+int TSet::operator!=(const TSet& s) const
 {
     return !(*this == s);
 }
 
-TSet TSet::operator+(const TSet &s) // объединение
+TSet TSet::operator+(const TSet& s) 
 {
-    //throw "Method is not implemented";
-    TSet result(max(MaxPower, s.MaxPower));
-    result.BitField = BitField | s.BitField;
-    return result;
+    TSet tmp(max(MaxPower, s.GetMaxPower()));
+    tmp.BitField = BitField | s.BitField;
+    return tmp;
 }
 
-TSet TSet::operator+(const int Elem) // объединение с элементом
+TSet TSet::operator+(const int Elem)
 {
-    if (Elem < MaxPower || Elem > MaxPower - 1) throw "Method is not implemented";
-    TSet result(*this);
-    result.BitField.SetBit(Elem);
-    return result;
+    if (Elem < 0 || Elem >= MaxPower)
+        throw "Method is not implemented";
+    TSet tmp(*this);
+    tmp.BitField.SetBit(Elem);
+    return tmp;
 }
 
-TSet TSet::operator-(const int Elem) // разность с элементом
+TSet TSet::operator-(const int Elem)
 {
-    if (Elem < MaxPower || Elem > MaxPower - 1) throw "Method is not implemented";
-    TSet result(*this);
-    result.BitField.ClrBit(Elem);
-    return result;
+    if (Elem < 0 || Elem >= MaxPower)
+        throw "Method is not implemented";
+    TSet tmp(*this);
+    tmp.BitField.ClrBit(Elem);
+    return tmp;
 }
 
-TSet TSet::operator*(const TSet &s) // пересечение
+TSet TSet::operator*(const TSet& s) 
 {
-    //throw "Method is not implemented";
-    TSet result(max(MaxPower, s.MaxPower));
-    result.BitField = BitField & s.BitField;
-    return result;
+    TSet tmp(max(MaxPower, s.GetMaxPower()));
+    tmp.BitField = BitField & s.BitField;
+    return tmp;
 }
 
-TSet TSet::operator~(void) // дополнение
+TSet TSet::operator~(void) 
 {
-    //throw "Method is not implemented";
-    TSet result(*this);
-    result.BitField = ~BitField;
-    return result;
+    TSet tmp(*this);
+    tmp.BitField = ~tmp.BitField;
+    return tmp;
 }
 
-// перегрузка ввода/вывода
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-istream &operator>>(istream &istr, TSet &s) // ввод
+
+
+
+
+
+
+
+
+
+
+
+
+
+//OVERFLOWS
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//in
+istream& operator>>(istream& istr, TSet& s) // ввод
 {
-    //throw "Method is not implemented";
     TELEM tmp;
     istr >> tmp;
     if (tmp < 0 || tmp >= s.GetMaxPower())
-        throw "ERROR_IN_CIN_NUMBER_IS_OUT_OF_RANGE";
+        throw "Method is not implemented";
     s.InsElem(tmp);
     return istr;
 }
 
-ostream& operator<<(ostream &ostr, const TSet &s) // вывод
+//out
+ostream& operator<<(ostream& ostr, const TSet& s) // вывод
 {
-    //throw "Method is not implemented";
     for (int i = 0; i < s.GetMaxPower(); ++i)
         if (s.IsMember(i))
             ostr << i << " ";
     return ostr;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
