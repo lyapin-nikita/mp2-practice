@@ -76,7 +76,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 
 // битовые операции
 
-TBitField& TBitField::operator=(const TBitField &bf) // присваивание
+TBitField& TBitField::operator=(const TBitField &bf)// присваивание
 {
     //throw "Method is not implemented";
     BitLen = bf.BitLen;
