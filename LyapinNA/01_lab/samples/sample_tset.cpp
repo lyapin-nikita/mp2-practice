@@ -18,6 +18,9 @@ int main()
     TSet TS1(sz1), TS2(sz2);
     cout << "TS1: " << TS1 << endl;
     cout << "TS2: " << TS2 << endl;
+    cout << "Enter elements for TS2: ";
+    cin >> TS2;
+    cout << TS2;
     cout << "\n\n\n\n";
     ///////////////////////////////////////////////////////////////////
 
@@ -28,8 +31,6 @@ int main()
     cin >> ind1;
     TS1.InsElem(ind1);
     cout << "Now TS1 is: " << TS1 << endl;
-    cout << "For example, set all elements in TS2." << endl;;
-    for (size_t i(0); i < sz2; ++i) TS2.InsElem(i);
     cout << "TS2: " << TS2 << endl;
     cout << "Deleting the element in Univers TS2: ";
     cin >> ind2;

@@ -7,9 +7,9 @@
 // Реализация оболочки TSet (множества) битового поля TBitField
 
 #include "tset.h"
+#include <conio.h>
 
-
-
+//TODO нужно переделать функции ввода, вывода(возможно), сравнения
 
 
 
@@ -171,18 +171,34 @@ TSet TSet::operator~(void)
 istream& operator>>(istream& istr, TSet& s) // ввод
 {
     TELEM tmp;
-    istr >> tmp;
-    if (tmp < 0 || tmp >= s.GetMaxPower())
-        throw "Method is not implemented";
-    s.InsElem(tmp);
+    for (int i = 0; i < s.GetMaxPower(); ++i)
+    {
+        tmp = _getch();
+        _getch();
+        if (tmp == 101) break;
+        cout << tmp - 48 << " ";
+        s.InsElem(tmp - 48);
+    }
     return istr;
 }
 
 //out
 ostream& operator<<(ostream& ostr, const TSet& s) // вывод
 {
+    ostr << "{";
+    bool haveMembers = false;
     for (int i = 0; i < s.GetMaxPower(); ++i)
-    ostr << s.IsMember(i) << " ";
+    {
+        if (s.IsMember(i) == 1)
+        {
+            ostr << " " << i;
+            
+            haveMembers = true;
+        }
+    }
+
+    if (haveMembers == false) ostr << " empty";
+    ostr << " }";
     return ostr;
 }
 
