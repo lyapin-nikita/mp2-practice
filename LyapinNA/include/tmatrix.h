@@ -22,13 +22,13 @@ public:
     // ввод / вывод
     friend istream& operator>>(istream& in, TMatrix& mt)
     {
-        for (int i = 0; i < mt.Size; i++)
+        for (int i = 0; i < mt.size; i++)
             in >> mt.pVector[i];
         return in;
     }
     friend ostream& operator<<(ostream& out, const TMatrix& mt)
     {
-        for (int i = 0; i < mt.Size; i++)
+        for (int i = 0; i < mt.size; i++)
             out << mt.pVector[i] << endl;
         return out;
     }
@@ -65,22 +65,19 @@ bool TMatrix<elem>::operator!=(const TMatrix<elem>& matrix) const
 template <class elem> // присваивание
 TMatrix<elem>& TMatrix<elem>::operator=(const TMatrix<elem>& mt)
 {
-    const TMatrix<elem>& mt)
+    if (this != &mt)
     {
-        if (this != &mt)
+        if (Size != mt.Size)
         {
-            if (size != mt.size)
-            {
-                delete[] pVector;
-                pVector = new TVector<elem>[mt.size];
-            }
-            size = mt.size;
-            start_index = mt.start_index;
-            for (int i = 0; i < size; i++)
-                pVector[i] = mt.pVector[i];
+            delete[] pVector;
+            pVector = new TVector<ValType>[mt.Size];
         }
-        return (*this);
-
+        Size = mt.Size;
+        StartIndex = mt.StartIndex;
+        for (int i = 0; i < Size; i++)
+            pVector[i] = mt.pVector[i];
+    }
+    return *this;
 } 
 
 template <class elem> // сложение

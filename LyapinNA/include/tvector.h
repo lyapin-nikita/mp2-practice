@@ -43,13 +43,13 @@ public:
     // перегрузка ввода вывода
     friend istream& operator>>(istream& in, TVector& vector)
     {
-        for (int i = 0; i < vector.Size; i++) in >> vector.pVector[i];
+        for (int i = 0; i < vector.size; i++) in >> vector.pVector[i];
         return in;
     }
-    friend ostream& operator<<(ostream& out, const TVector& v)
+    friend ostream& operator<<(ostream& out, const TVector& vector)
     { 
         out << "{ ";
-        for (int i = 0; i < v.Size; i++) out << v.pVector[i] << ' ';
+        for (int i = 0; i < vector.size; i++) out << vector.pVector[i] << ' ';
         out << '}';
         return out;
     }
@@ -59,7 +59,7 @@ public:
 template <typename elem>
 TVector<elem>::TVector(int size = 10, int sizeindex = 0)
 {
-    pVector = new pVector[10];  
+    pVector = new elem[10];  
     for (int i = 0; i < size; ++i) pVector[i] = 0;
 }
 
@@ -108,13 +108,13 @@ bool TVector<elem>::operator!=(const TVector& vector) const
 template <typename elem> // присваивание
 TVector<elem>& TVector<elem>::operator=(const TVector& vector)
 {
-    if (this != &v)
+    if (this != &vector)
     {
         if (size != vector.size)
         {
             delete[] pVector;
             pVector = new elem[vector.size];
-            32
+            
         }
         size = vector.size;
         start_index = vector.start_index;
