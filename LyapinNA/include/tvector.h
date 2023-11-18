@@ -1,7 +1,6 @@
 
 //include
 	#pragma once
-	#define _TVECTOR_
 	#include <iostream>
 
 using namespace std;
@@ -109,14 +108,18 @@ bool TVector<elem>::operator!=(const TVector& vector) const
 template <typename elem> // присваивание
 TVector<elem>& TVector<elem>::operator=(const TVector& vector)
 {
-    if (vector == (*this)) return (*this);
-    delete[] pVector;
-    size = vector.size;
-    start_index = vector.start_index;
-    pVector = new pVector[size];
-    for (int i = 0; i < size; ++i)
+    if (this != &v)
     {
-        pVector[i] = vector.pVector[i];
+        if (size != vector.size)
+        {
+            delete[] pVector;
+            pVector = new elem[vector.size];
+            32
+        }
+        size = vector.size;
+        start_index = vector.start_index;
+        for (int i = 0; i < size; i++)
+            pVector[i] = vector.pVector[i];
     }
     return (*this);
 } 
