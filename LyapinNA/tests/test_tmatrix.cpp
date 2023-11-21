@@ -27,7 +27,7 @@ TEST(TMatrix, can_copy_matrix)
 TEST(TMatrix, can_assign_matrix)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -47,7 +47,7 @@ TEST(TMatrix, can_assign_matrix)
 TEST(TMatrix, can_assign_matrix_with_different_size)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -72,7 +72,7 @@ TEST(TMatrix, can_assign_matrix_with_different_size)
 TEST(TMatrix, can_add_matrix)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -83,7 +83,7 @@ TEST(TMatrix, can_add_matrix)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;
@@ -94,7 +94,7 @@ TEST(TMatrix, can_add_matrix)
 	mt2[0] = vec3;
 	mt2[1] = vec4;
 	TMatrix<int> tmp(2);
-	TVec<int> res(2);
+	TVector<int> res(2);
 	res = vec1 + vec3;
 	tmp = mt + mt2;
 	EXPECT_EQ(res, tmp[0]);
@@ -117,7 +117,7 @@ TEST(TMatrix, cant_add_matrix_with_different_size)
 TEST(TMatrix, can_subtract_matrix)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -128,7 +128,7 @@ TEST(TMatrix, can_subtract_matrix)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;
@@ -140,7 +140,7 @@ TEST(TMatrix, can_subtract_matrix)
 	mt2[1] = vec4;
 	TMatrix<int> tmp(2);
 	tmp = mt - mt2;
-	TVec<int> res(2);
+	TVector<int> res(2);
 	res = vec1 - vec3;
 	EXPECT_EQ(res, tmp[0]);
 }
@@ -162,7 +162,7 @@ TEST(TMatrix, cant_subtrac_matrix_with_different_size)
 TEST(TMatrix, can_multiply_matrix)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -173,7 +173,7 @@ TEST(TMatrix, can_multiply_matrix)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;
@@ -204,7 +204,7 @@ TEST(TMatrix, cant_multiply_matrix_with_different_size)
 TEST(TMatrix, equality_equal_matrix_with_equal_size)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -216,7 +216,7 @@ TEST(TMatrix, equality_equal_matrix_with_equal_size)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;
@@ -232,7 +232,7 @@ TEST(TMatrix, equality_equal_matrix_with_equal_size)
 TEST(TMatrix, equality_not_equal_matrix_with_equal_size)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 2;
@@ -243,7 +243,7 @@ TEST(TMatrix, equality_not_equal_matrix_with_equal_size)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;
@@ -271,7 +271,7 @@ TEST(TMatrix, equality_matrix_with_not_equal_size)
 TEST(TMatrix, unequality_equal_matrix_with_equal_size)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 1;
@@ -282,7 +282,7 @@ TEST(TMatrix, unequality_equal_matrix_with_equal_size)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;
@@ -308,7 +308,7 @@ TEST(TMatrix, unequality_equal_matrix_with_not_equal_size)
 TEST(TMatrix, unequality_not_equal_matrix_with_equal_size)
 {
 	TMatrix<int> mt(2);
-	TVec<int> vec1(2), vec2(1);
+	TVector<int> vec1(2), vec2(1);
 
 	vec1[0] = 1;
 	vec1[1] = 2;
@@ -319,7 +319,7 @@ TEST(TMatrix, unequality_not_equal_matrix_with_equal_size)
 	mt[0] = vec1;
 	mt[1] = vec2;
 	TMatrix<int> mt2(2);
-	TVec<int> vec3(2), vec4(1);
+	TVector<int> vec3(2), vec4(1);
 
 	vec3[0] = 1;
 	vec3[1] = 1;

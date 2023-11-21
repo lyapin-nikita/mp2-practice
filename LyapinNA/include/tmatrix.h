@@ -3,6 +3,7 @@
     #include "tvector.h"
 
 
+
 template <class elem>
 class TMatrix : public TVector<TVector<elem>>
 {
@@ -18,6 +19,7 @@ public:
     TMatrix& operator= (const TMatrix& mt);        // присваивание
     TMatrix  operator+ (const TMatrix& mt);        // сложение
     TMatrix  operator- (const TMatrix& mt);        // вычитание
+    TMatrix  operator* (const TMatrix& mt);        // произведение
 
     // ввод / вывод
     friend istream& operator>>(istream& in, TMatrix& mt)
@@ -67,14 +69,14 @@ TMatrix<elem>& TMatrix<elem>::operator=(const TMatrix<elem>& mt)
 {
     if (this != &mt)
     {
-        if (Size != mt.Size)
+        if (size != mt.size)
         {
             delete[] pVector;
-            pVector = new TVector<ValType>[mt.Size];
+            pVector = new TVector<elem>[mt.size];
         }
-        Size = mt.Size;
-        StartIndex = mt.StartIndex;
-        for (int i = 0; i < Size; i++)
+        size = mt.size;
+        start_index = mt.start_index;
+        for (int i = 0; i < size; i++)
             pVector[i] = mt.pVector[i];
     }
     return *this;
@@ -83,10 +85,39 @@ TMatrix<elem>& TMatrix<elem>::operator=(const TMatrix<elem>& mt)
 template <class elem> // сложение
 TMatrix<elem> TMatrix<elem>::operator+(const TMatrix<elem>& mt)
 {
-    return TVector<TVector<>>::operator+(mt);
+    return TVector<TVector<elem>>::operator+(mt);
 } 
 
 template <class elem> // вычитание
 TMatrix<elem> TMatrix<elem>::operator-(const TMatrix<elem>& mt)
 {
-} /*-------------------------------------------------------------------------*/
+    return TVector<TVector<elem>>::operator-(mt);
+} 
+
+template <class elem>
+TMatrix<elem> TMatrix<elem>::operator*(const TMatrix& mt) {
+    if (size != mt.size) throw "invalid size";
+    TMatrix result(size);
+
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = i; j < size; ++j)
+        {
+            result[i][j - i] = 0;
+        }
+    }
+
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = i; j < size; ++j)
+        {
+            for (int k = i; k <= j; ++k)
+            {
+                result[i][j - i] += (*this)[i][k - i] * mt[k][j - k];
+            }
+        }
+    }
+
+
+    return result;
+}
