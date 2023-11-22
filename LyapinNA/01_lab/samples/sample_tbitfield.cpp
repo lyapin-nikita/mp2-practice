@@ -19,6 +19,9 @@ int main()
     cout << "Length of second TBitField BF2: ";
     cin >> sz2;
     TBitField BF2(sz2);
+    cin >> BF1;
+    cout << endl << endl;
+    cin >> BF2;
     cout << "\n" << "BF1: " << BF1 << "BF2: " << BF2;
     cout << "\n\n\n\n";
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +48,6 @@ int main()
     BF1.SetBit(ind1);
     cout << "Now BF1 is: " << BF1;
     cout << "\n";
-    cout << "For example, set all bits in BF2." << endl;
     for (size_t i(0); i < BF2.GetLength(); ++i) BF2.SetBit(i);
     cout << "Index of bit that you want to clear in BF2 (from 0 to its length " << BF2.GetLength() << "-1): ";
     cin >> ind2;
