@@ -57,27 +57,21 @@ TEST(TVector, can_get_index_value)
 }
 ///////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-//== !=
-///////////////////////////////////////////////////////////////////////////
 TEST(TVector, equality_equal_vectors_with_equal_start_index_and_equal_size)
 {
 	TVector<int> vec1(3);
 	vec1[0] = 1;
-	vec1[1] = 2;
+	vec1[1] = 4;
 	vec1[2] = 3;
+
 	TVector<int> vec2(3);
 	vec2[0] = 1;
-	vec2[1] = 2;
+	vec2[1] = 4;
 	vec2[2] = 3;
 
-	bool res = (vec1 == vec2);
-	EXPECT_EQ(true, res);
+	bool result;
+	result = (vec1 == vec2);
+	EXPECT_TRUE(result);
 }
 
 TEST(TVector, equality_equal_vectors_with_not_equal_start_index_and_equal_size)
@@ -86,42 +80,46 @@ TEST(TVector, equality_equal_vectors_with_not_equal_start_index_and_equal_size)
 	vec1[0] = 1;
 	vec1[1] = 2;
 	vec1[2] = 3;
+	
 	TVector<int> vec2(3,1);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 == vec2);
-	EXPECT_EQ(false, res);
+	bool result;
+	result = (vec1 == vec2);
+	EXPECT_FALSE(result);
 }
 
 TEST(TVector, equality_not_equal_vectors_with_equal_start_index_and_not_equal_size)
 {
-	TVector<int> vec1(2);
+	TVector<int> vec1(2, 1);
 	vec1[0] = 1;
 	vec1[1] = 2;
-	TVector<int> vec2(3);
+	
+	TVector<int> vec2(3, 1);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 == vec2);
-	EXPECT_EQ(false, res);
+	bool result = (vec1 == vec2);
+	EXPECT_FALSE(result);
 }
 
 TEST(TVector, equality_not_equal_vectors_with_equal_start_index_and_equal_size)
 {
-	TVector<int> vec1(3);
+	TVector<int> vec1(3,1);
 	vec1[0] = 1;
-	vec1[1] = 7;
+	vec1[1] = 4;
 	vec1[2] = 3;
-	TVector<int> vec2(3);
+
+	TVector<int> vec2(3,1);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 == vec2);
-	EXPECT_EQ(false, res);
+	bool result = (vec1 == vec2);
+	EXPECT_FALSE(result);
 }
 
 TEST(TVector, inequality_equal_vectors_with_equal_start_index_and_equal_size)
@@ -130,28 +128,30 @@ TEST(TVector, inequality_equal_vectors_with_equal_start_index_and_equal_size)
 	vec1[0] = 1;
 	vec1[1] = 2;
 	vec1[2] = 3;
+	
 	TVector<int> vec2(3);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 != vec2);
-	EXPECT_EQ(false, res);
+	bool result = (vec1 != vec2);
+	EXPECT_FALSE(result);
 }
 
 TEST(TVector, inequality_equal_vectors_with_not_equal_start_index_and_equal_size)
 {
-	TVector<int> vec1(3);
+	TVector<int> vec1(3,1);
 	vec1[0] = 1;
 	vec1[1] = 2;
 	vec1[2] = 3;
-	TVector<int> vec2(3, 1);
+	
+	TVector<int> vec2(3,2);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 != vec2);
-	EXPECT_EQ(true, res);
+	bool result = (vec1 != vec2);
+	EXPECT_TRUE(result);
 }
 
 TEST(TVector, inequality_not_equal_vectors_with_equal_start_index_and_not_equal_size)
@@ -159,28 +159,30 @@ TEST(TVector, inequality_not_equal_vectors_with_equal_start_index_and_not_equal_
 	TVector<int> vec1(2);
 	vec1[0] = 1;
 	vec1[1] = 2;
+	
 	TVector<int> vec2(3);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 != vec2);
-	EXPECT_EQ(true, res);
+	bool result = (vec1 != vec2);
+	EXPECT_TRUE(result);
 }
 
 TEST(TVector, inequality_not_equal_vectors_with_equal_start_index_and_equal_size)
 {
 	TVector<int> vec1(3);
 	vec1[0] = 1;
-	vec1[1] = 7;
+	vec1[1] = 4;
 	vec1[2] = 3;
+	
 	TVector<int> vec2(3);
 	vec2[0] = 1;
 	vec2[1] = 2;
 	vec2[2] = 3;
 
-	bool res = (vec1 != vec2);
-	EXPECT_EQ(true, res);
+	bool result = (vec1 != vec2);
+	EXPECT_TRUE(result);
 }
 /////////////////////////////////////////////////////////////////////////////
 
