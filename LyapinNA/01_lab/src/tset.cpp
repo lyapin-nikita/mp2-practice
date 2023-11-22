@@ -86,7 +86,7 @@ TSet::operator TBitField()
     return BitField;
 }
 
-TSet& TSet::operator=(const TSet& s)
+const TSet& TSet::operator=(const TSet& s)
 {
     if (this == &s)
         return *this;
