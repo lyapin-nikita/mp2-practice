@@ -78,12 +78,14 @@ int TBitField::GetBit(const int n) const // получить значение б
 
 const TBitField& TBitField::operator=(const TBitField &bf)// присваивание
 {
-    // !!!!
     //throw "Method is not implemented";
+    if (this == &bf) return (*this);
+    delete[] pMem;
     BitLen = bf.BitLen;
     MemLen = bf.MemLen;
+    pMem = new TELEM[MemLen];
     for (int i(0); i < MemLen; ++i) pMem[i] = bf.pMem[i];
-    return *this;
+    return (*this);
 }
 
 int TBitField::operator==(const TBitField &bf) const // сравнение
@@ -100,43 +102,27 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-    const int newBitLen = max(BitLen, bf.BitLen);
-    TBitField result(newBitLen);
-    for (int i(0); i < newBitLen; i++)
+    const int minBitLen = min(BitLen, bf.BitLen);
+    TBitField result(1);
+    if (BitLen < bf.BitLen) result = bf;
+    else result = *this;
+
+    for (int i = 0; i < minBitLen; ++i)
     {
-        if (i >= BitLen)
-        {
-            //if (bf.GetBit(i) == 1) result.SetBit(i);
-            (bf.GetBit(i) == 1) ? (result.SetBit(i)) : false;
-        }
-        else if (i >= bf.BitLen)
-        {
-            (GetBit(i) == 1) ? (result.SetBit(i)) : false;
-        }
-        else 
-        {
-            if ((GetBit(i) == 0) && (bf.GetBit(i) == 0)) true;
-            else result.SetBit(i);
-        }
+        if (GetBit(i) || bf.GetBit(i)) result.SetBit(i);
+        else result.ClrBit(i);
     }
     return result;
 }
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-    //throw "Method is not implemented";
-    const int newBitLen = max(BitLen, bf.BitLen);
-    TBitField result(newBitLen);
-    for (int i(0); i < newBitLen; i++)
+    const int minBitLen = min(BitLen, bf.BitLen);
+    const int maxBitLen = max(BitLen, bf.BitLen);
+    TBitField result(maxBitLen);
+    for (int i = 0; i < minBitLen; ++i)
     {
-        if ((i >= BitLen) || (i >= bf.BitLen))
-        {
-            false;
-        }
-        else
-        {
-            if ((GetBit(i) == 1) && (bf.GetBit(i) == 1)) result.SetBit(i);
-        }
+        if (GetBit(i) && bf.GetBit(i)) result.SetBit(i);
     }
     return result;
 }
@@ -157,11 +143,12 @@ TBitField TBitField::operator~(void) // отрицание
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
     //throw "Method is not implemented";
-    for (int i = 0; i < bf.GetLength(); ++i)
+    string input;
+    istr >> input;
+    for (int i = 0; (i < input.size()) && (i < bf.BitLen); ++i)
     {
-        int tmp;
-        istr >> tmp;
-        if (tmp) bf.SetBit(i);
+        
+        if (input.c_str()[i] != '0') bf.SetBit(i);
         else bf.ClrBit(i);
     }
     return istr;
