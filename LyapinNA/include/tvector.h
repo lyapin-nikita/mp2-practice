@@ -60,10 +60,12 @@ public:
 
 
 template <typename elem>
-TVector<elem>::TVector(int size = 10, int sizeindex = 0)
+TVector<elem>::TVector(int size = 10, int new_start_index = 0)
 {
+    if (size < 0) throw "invalid size";
     this->size = size;
-    this->start_index = sizeindex;
+    if (new_start_index < 0) throw "invalid start index";
+    start_index = new_start_index;
     pVector = new elem[size];  
     for (int i = 0; i < size; ++i) pVector[i] = 0;
 }
@@ -89,12 +91,16 @@ TVector<elem>::~TVector()
 template <typename elem> // доступ
 elem& TVector<elem>::operator[](int position)
 {
+    if (position < 0) throw "invalid index";
+    if (position > size) throw "invalid index";
     return pVector[position];
 } 
 
 template <typename elem> // доступ
-elem& TVector<elem>::operator[](int position) const
+elem& TVector<elem>::operator[](const int position) const
 {
+    if (position < 0) throw "invalid index";
+    if (position > size) throw "invalid index";
     return pVector[position];
 }
 
@@ -102,6 +108,7 @@ template <typename elem> // сравнение
 bool TVector<elem>::operator==(const TVector& vector) const
 {
     if (vector.size != size) return false;
+    if (vector.start_index != start_index) return false;
     for (int i = 0; i < size; ++i)
     {
         if (pVector[i] != vector.pVector[i]) return false; 
@@ -116,19 +123,19 @@ bool TVector<elem>::operator!=(const TVector& vector) const
 } 
 
 template <typename elem> // присваивание
-TVector<elem>& TVector<elem>::operator=(const TVector& vector)
+TVector<elem>& TVector<elem>::operator=(const TVector<elem>& vector)
 {
     if (this != &vector)
     {
         if (size != vector.size)
         {
-            delete[] pVector;
-            pVector = new elem[vector.size];
             size = vector.size;
+            delete[] pVector;
+            pVector = new elem[size];
             
         }
         start_index = vector.start_index;
-        for (int i = 0; i < this->GetSize(); i++) pVector[i] = vector.pVector[i];
+        for (int i = 0; i < size; i++) pVector[i] = vector.pVector[i];
     }
     return (*this);
 } 
@@ -136,11 +143,11 @@ TVector<elem>& TVector<elem>::operator=(const TVector& vector)
 template <typename elem> // умножить на скаляр
 TVector<elem> TVector<elem>::operator*(const elem& val)
 {
-    for (int i = 0; i < size; ++i)
-    {
-        pVector[i] *= val;
+    TVector<elem> result(*this);
+    for (int i = 0; i < size; i++) {
+        result.pVector[i] = pVector[i] * val;
     }
-    return (*this);
+    return result;
 } 
 
 template <typename elem> 
@@ -169,6 +176,7 @@ template <typename elem> // сложение
 TVector<elem> TVector<elem>::operator+(const TVector<elem>& vector)
 {
     if (size != vector.size) throw "SIZES MUST BE EQUAL";
+    if (start_index != vector.start_index) throw "invalid start index";
     TVector<elem> result(*this);
     for (int i = 0; i < size; ++i)
     {
@@ -180,26 +188,21 @@ TVector<elem> TVector<elem>::operator+(const TVector<elem>& vector)
 template <typename elem> // вычитание
 TVector<elem> TVector<elem>::operator-(const TVector<elem>& vector)
 {
-    if (size != vector.size) throw "SIZES MUST BE EQUAL";
-    TVector<elem> result(*this);
-    for (int i = 0; i < size; ++i)
-    {
-        result[i] = result[i] - vector[i];
-    }
+    if (start_index != vector.start_index) throw "invalid start index";
+    if (size != vector.size) throw "invalid size";
+    TVector<elem> result(size, start_index);
+    for (int i = 0; i < size; i++) result.pVector[i] = pVector[i] - vector.pVector[i];
     return result;
 } 
 
 template <typename elem> // скалярное произведение
 elem TVector<elem>::operator*(const TVector<elem>& vector)
 {
-    elem result = 0;
-    TVector<elem> operand1(*this);
-    int minsize = min(size, vector.size);
-    for (int i = 0; i < minsize; ++i)
-    {
-        result += operand1[i] * vector[i];
-    }
-
+    if (start_index != vector.start_index) throw "invalid start index";
+    if (size != vector.size) throw "invalid sizes";
+    elem result = elem();
+    for (int i = 0; i < size; i++)
+        result += pVector[i] * vector.pVector[i];
     return result;
 } 
 

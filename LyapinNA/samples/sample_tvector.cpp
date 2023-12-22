@@ -1,39 +1,39 @@
+
+
 #include <iostream>
-#include "tvector.h"
+#include "TVector.h" // Подключаем заголовочный файл с определением класса TVector
 
 int main()
 {
-    std::cout << "TVec" << std::endl;
-    TVec<int> a(3), b(3);
-    cout << "Input int TVec a(size = 3) and b(size = 3)" << endl;
-    cin >> a >> b;
-    cout << a << b;
+    int size;
+    cout << "Enter the size of the vectors: ";
+    cin >> size;
 
-    TVec<int> c(3);
-    c = a + 3;
-    cout << "c = a + 3: " << c << endl;
+    // Создаем два экземпляра класса TVector
+    TVector<int> vector1(size);
+    TVector<int> vector2(size);
 
-    TVec<int> d(3);
-    d = a - 3;
-    cout << "d = a - 3: " << d << endl;
+    cout << "Enter the elements of the first vector:" << endl;
+    cin >> vector1; // Перегруженный оператор ввода
 
-    TVec<int> e(3);
-    e = a * 3;
-    cout << "e = a * 3: " << e << endl;
+    cout << "Enter the elements of the second vector:" << endl;
+    cin >> vector2; // Перегруженный оператор ввода
 
-    TVec<int> f(3);
-    f = a + b;
-    cout << "f = a + b: " << f << endl;
+    // Демонстрация работы операторов
+    cout << "First vector: " << vector1 << endl; // Перегруженный оператор вывода
+    cout << "Second vector: " << vector2 << endl; // Перегруженный оператор вывода
 
-    TVec<int> g(3);
-    g = a - b;
-    cout << "g = a - b: " << g << endl;
+    TVector<int> result = vector1 + vector2; // Перегруженный оператор сложения
+    cout << "Sum of vectors: " << result << endl;
 
-    int h;
-    h = a * b;
-    cout << "h = a * b: " << h << endl;
+    result = vector1 - vector2; // Перегруженный оператор вычитания
+    cout << "Difference of vectors: " << result << endl;
 
-    cout << "a == b : " << (a == b) << endl << "a != b : " << (a != b) << endl;
-    system("PAUSE");
+    double scalarProduct = vector1 * vector2; // Перегруженный оператор скалярного произведения
+    cout << "Scalar product of vectors: " << scalarProduct << endl;
+
+    result = vector1 * 2; // Перегруженный оператор умножения на число
+    cout << "Vector1 multiplied by 2.0: " << result << endl;
+
     return 0;
 }
